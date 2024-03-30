@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AddJobPage = () => {
+const AddJobPage = ({ addJobSubmit }) => {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("Full-Time");
   const [location, setLocation] = useState("");
@@ -11,11 +12,32 @@ const AddJobPage = () => {
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
 
+  const navigate = useNavigate();
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const newJob = {
+      title,
+      type,
+      location,
+      description,
+      salary,
+      company: {
+        name: companyName,
+        description: companyDescription,
+        contactEmail,
+        contactPhone,
+      },
+    };
+    addJobSubmit(newJob);
+    return navigate("/jobs");
+  };
+
   return (
     <section className="bg-indigo-50">
       <div className="container max-w-2xl py-24 m-auto">
         <div className="px-6 py-8 m-4 mb-4 bg-white border rounded-md shadow-md md:m-0">
-          <form>
+          <form onSubmit={submitForm}>
             <h2 className="mb-6 text-3xl font-semibold text-center">Add Job</h2>
 
             <div className="mb-4">
@@ -30,6 +52,8 @@ const AddJobPage = () => {
                 name="type"
                 className="w-full px-3 py-2 border rounded"
                 required
+                value={type}
+                onChange={(e) => setType(e.target.value)}
               >
                 <option value="Full-Time">Full-Time</option>
                 <option value="Part-Time">Part-Time</option>
@@ -49,6 +73,8 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 mb-2 border rounded"
                 placeholder="eg. Beautiful Apartment In Miami"
                 required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -64,6 +90,8 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 border rounded"
                 rows="4"
                 placeholder="Add any job duties, expectations, requirements, etc"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
 
@@ -79,6 +107,8 @@ const AddJobPage = () => {
                 name="salary"
                 className="w-full px-3 py-2 border rounded"
                 required
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
               >
                 <option value="Under $50K">Under $50K</option>
                 <option value="$50K - 60K">$50K - $60K</option>
@@ -105,6 +135,8 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 mb-2 border rounded"
                 placeholder="Company Location"
                 required
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
 
@@ -123,6 +155,8 @@ const AddJobPage = () => {
                 name="company"
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Company Name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
             </div>
 
@@ -139,6 +173,8 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 border rounded"
                 rows="4"
                 placeholder="What does your company do?"
+                value={companyDescription}
+                onChange={(e) => setCompanyDescription(e.target.value)}
               ></textarea>
             </div>
 
@@ -156,6 +192,8 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Email address for applicants"
                 required
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -171,6 +209,8 @@ const AddJobPage = () => {
                 name="contact_phone"
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Optional phone for applicants"
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
               />
             </div>
 
